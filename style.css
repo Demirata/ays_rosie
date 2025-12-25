@@ -1,5 +1,7 @@
 /* GENEL */
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
@@ -27,21 +29,32 @@ body {
   opacity: 0.9;
 }
 
-/* MÜZİK BUTONU */
-#muzikBtn{
+#muzikBtn {
   position: fixed;
   top: 14px;
   right: 14px;
+  pointer-events: auto;
   width: 54px;
   height: 54px;
+  border: none;
   border-radius: 50%;
-  z-index: 10000; /* <<< ARTIRDIK */
-  pointer-events: auto; /* <<< GARANTİ */
-  touch-action: manipulation; /* <<< MOBİL İÇİN */
+
+  font-size: 22px;
+  background: rgba(0, 0, 0, 0.35);
+  color: white;
+
+  z-index: 100000;
+  /* <<< çok yüksek yaptık */
+  pointer-events: auto;
+  /* <<< garanti */
+  touch-action: manipulation;
+  /* <<< mobil tıklama */
 }
 
 
-#muzikBtn:hover { transform: scale(1.06); }
+#muzikBtn:hover {
+  transform: scale(1.06);
+}
 
 /* KUTULAR */
 .kutuAlan {
@@ -80,37 +93,37 @@ body {
 }
 
 /* FOTO ÜSTÜNE PEMBE + KARARTMA + HAFİF BLUR */
-.kutu::before{
-    content:"";
-    position:absolute;
-    inset:-12px;
-    background-image: var(--bg);
-    background-size: cover;
-    background-position: center;
-    filter: blur(2px);
-    transform: scale(1.00);
-    z-index: 0;
-    will-change: transform, filter;
-  }
+.kutu::before {
+  content: "";
+  position: absolute;
+  inset: -12px;
+  background-image: var(--bg);
+  background-size: cover;
+  background-position: center;
+  filter: blur(2px);
+  transform: scale(1.00);
+  z-index: 0;
+  will-change: transform, filter;
+}
 
-  .kutu::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background: rgba(0,0,0,0.25);
-    z-index: 1;
-  }
+.kutu::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 1;
+}
 
-  .kutuYazi{
-    position: relative;
-    z-index: 2;
-    font-size: 26px;
-    font-weight: 900;
-    letter-spacing: 2px;
-    color: #fff;
-    text-shadow: 0 4px 14px rgba(0,0,0,1);
-  }
-  
+.kutuYazi {
+  position: relative;
+  z-index: 2;
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #fff;
+  text-shadow: 0 4px 14px rgba(0, 0, 0, 1);
+}
+
 
 /* HOVER 
 .kutu:hover {
@@ -119,28 +132,35 @@ body {
 } */
 
 .kutu:hover::before {
-  background: linear-gradient(
-    rgba(164, 255, 6, 0.947),
-    rgba(0, 0, 0, 0.35)
-  );
+  background: linear-gradient(rgba(164, 255, 6, 0.947),
+      rgba(0, 0, 0, 0.35));
 }
 
 /* RESPONSIVE */
 @media (max-width: 900px) {
-  .kutuAlan { grid-template-columns: repeat(2, 1fr); }
+  .kutuAlan {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 520px) {
-  .ust h1 { font-size: 32px; }
-  .kutu { height: 120px; font-size: 16px; }
+  .ust h1 {
+    font-size: 32px;
+  }
+
+  .kutu {
+    height: 120px;
+    font-size: 16px;
+  }
 }
 
 /* LIGHTBOX */
 .lb {
+  pointer-events: auto;
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.88);
+  background: rgba(0, 0, 0, 0.88);
   justify-content: center;
   align-items: center;
   padding: 18px;
@@ -149,7 +169,7 @@ body {
 
 .lbIcerik {
   width: min(980px, 96%);
-  background: rgba(255,255,255,0.12);
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 22px;
   padding: 16px;
   position: relative;
@@ -171,7 +191,7 @@ body {
   width: 100%;
   height: 380px;
   border-radius: 18px;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -183,7 +203,7 @@ body {
   max-width: 100%;
   max-height: 100%;
   border-radius: 16px;
-  box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
 }
 
 #lbYazi {
@@ -213,27 +233,27 @@ body {
 
 .thumb:hover {
   transform: scale(1.06);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
 
-.soruKutu{
+.soruKutu {
   width: min(900px, 92%);
   margin: 10px auto 80px;
   padding: 22px 18px;
   border-radius: 22px;
-  background: rgba(255,255,255,0.35);
+  background: rgba(255, 255, 255, 0.35);
   backdrop-filter: blur(10px);
   text-align: center;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
 }
 
-.soruBaslik{
+.soruBaslik {
   margin: 0 0 10px;
   font-size: 26px;
   color: #8a0044;
 }
 
-.cevapYazi{
+.cevapYazi {
   min-height: 28px;
   margin: 0 0 14px;
   font-size: 18px;
@@ -241,7 +261,7 @@ body {
   color: #2b0b1a;
 }
 
-.butonlar{
+.butonlar {
   position: relative;
   height: 56px;
   display: flex;
@@ -250,7 +270,7 @@ body {
   align-items: center;
 }
 
-.butonlar button{
+.butonlar button {
   border: none;
   border-radius: 14px;
   padding: 12px 18px;
@@ -258,15 +278,16 @@ body {
   cursor: pointer;
 }
 
-.evet{
+.evet {
   background: #ff4d8d;
   color: #fff;
 }
 
-.hayir{
+.hayir {
   background: #222;
   color: #fff;
-  position: absolute; /* kaçabilmesi için */
+  position: absolute;
+  /* kaçabilmesi için */
   left: 50%;
   transform: translateX(120px);
   transition: transform 0.12s ease;
@@ -286,6 +307,7 @@ body {
     transform: translateY(0) scale(1);
     opacity: 1;
   }
+
   100% {
     transform: translateY(-120vh) scale(1.6);
     opacity: 0;
