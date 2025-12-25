@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>💕 BEBEĞİME 💕</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- ARKA PLAN MÜZİK -->
+  <audio id="arkaMuzik" loop playsinline>
+    <source src="https://raw.githubusercontent.com/Demirata/ays_rosie/refs/heads/main/music/askim.mp3"
+      type="audio/mpeg">
+  </audio>
+
+  <!-- MÜZİK AÇ/KAPAT -->
+  <button id="muzikBtn" title="Müzik Aç/Kapat">🔇</button>
+
+  <header class="ust">
+    <h1>💖SENİ ÇOK SEVİYORUM BİTANEM💖</h1>
+    <p>💕SEVGİLİM ARTIK TÜM FOTOĞRAFLARIMIZ BURDA BURASI BİZİM YERİMİZ💕</p>
+  </header>
+
+  <!-- Kutular -->
+  <main id="kutuAlan" class="kutuAlan"></main>
+
+  <section class="soruKutu">
+    <h2 class="soruBaslik">Beni seviyor musun? 💖</h2>
+    <p id="cevapYazi" class="cevapYazi"></p>
+
+    <div class="butonlar">
+      <button id="evetBtn" class="evet">Evet 😍</button>
+      <button id="hayirBtn" class="hayir">Hayır 🙃</button>
+    </div>
+  </section>
+
+  <!-- LIGHTBOX -->
+  <div id="lightbox" class="lb" onclick="arkaKapat(event)">
+    <div class="lbIcerik">
+      <button class="lbKapat" onclick="kapat()">×</button>
+
+      <div class="lbBuyuk">
+        <img id="buyukFoto" alt="Seçilen foto">
+        <div id="lbYazi">Bir foto seç 👇</div>
+      </div>
+
+      <div id="thumbGrid" class="thumbGrid"></div>
+    </div>
+  </div>
+
+  <script>
+    // ✅ KUTU İSİMLERİ
+    const kutuIsimleri = [
+      "İLK DATE",
+      "HEDİYE",
+      "ESKİŞEHİR",
+      "KONYA",
+      "RİZE",
+      "BURSA",
+      "ANKARA",
+      "LEGO DATE",
+      "ÇİÇEK"
+    ];
+
+    // ✅ IMGBB FOTO LİSTELERİ (SENİN LİNKLERİN)
+    const fotoGruplari = {
+      1: [
+        "https://i.ibb.co/9JL3Lst/1-1.jpg",
+        "https://i.ibb.co/q3j1KnZN/1-2.jpg",
+        "https://i.ibb.co/pBkk2z5m/1-3.jpg",
+        "https://i.ibb.co/b5qdR0PB/1-4.jpg"
+      ],
+      2: [
+        "https://i.ibb.co/SD1zLfty/2-1.jpg",
+        "https://i.ibb.co/0yt0g8Jx/2-2.gif",
+        "https://i.ibb.co/WNfZjxjZ/2-3.gif",
+        "https://i.ibb.co/5gCHwgm1/2-4.gif",
+        "https://i.ibb.co/1JLVPxc5/2-5.gif",
+        "https://i.ibb.co/tFdDCDW/2-6.gif",
+        "https://i.ibb.co/pBXhCSSD/2-7.gif",
+        "https://i.ibb.co/v6NvKNRT/2-9.jpg",
+        "https://i.ibb.co/bgTWqnbD/2-10.jpg",
+        "https://i.ibb.co/R4HYH26Y/2-11.jpg",
+        "https://i.ibb.co/mCB8csPB/2-12.jpg",
+        "https://i.ibb.co/q38XqXZ5/2-13.jpg",
+        "https://i.ibb.co/dwVxgtp6/2-14.jpg",
+        "https://i.ibb.co/GQwjn1wC/2-15.jpg",
+        "https://i.ibb.co/W7LbPhR/2-16.jpg",
+        "https://i.ibb.co/23xQt67V/2-17.jpg",
+        "https://i.ibb.co/PZfTn30M/2-18.jpg",
+        "https://i.ibb.co/X0nmmQR/2-19.jpg",
+        "https://i.ibb.co/GQTW6k7g/2-20.gif"
+      ],
+      3: [
+        "https://i.ibb.co/W17Tnyt/3-1.jpg",
+        "https://i.ibb.co/9mNPXFqN/3-2.jpg",
+        "https://i.ibb.co/fzh9gD0F/3-3.jpg",
+        "https://i.ibb.co/k6GLjdYh/3-6.jpg",
+        "https://i.ibb.co/Psz0jJV3/3-7.jpg",
+        "https://i.ibb.co/qFWrrtNF/3-8.jpg",
+        "https://i.ibb.co/KjpQ71sY/3-9.jpg",
+        "https://i.ibb.co/rGQMMtf3/3-10.jpg",
+        "https://i.ibb.co/MkDVZCbg/3-11.jpg",
+        "https://i.ibb.co/h1JG6JBG/3-12.jpg",
+        "https://i.ibb.co/8DHJ2fj2/3-13.jpg",
+        "https://i.ibb.co/bMvq4dRD/3-14.jpg",
+        "https://i.ibb.co/8nj4hggQ/3-15.jpg",
+        "https://i.ibb.co/x82760M4/3-16.jpg",
+        "https://i.ibb.co/yBkXzNwp/3-17.jpg",
+        "https://i.ibb.co/5g2R8Lvn/3-18.jpg",
+        "https://i.ibb.co/ZjnWpVP/3-19.jpg",
+        "https://i.ibb.co/xqdLqkKZ/3-20.jpg",
+        "https://i.ibb.co/7NztCdnm/3-21.jpg",
+        "https://i.ibb.co/mrx1xsSk/3-22.jpg",
+        "https://i.ibb.co/fVB9QGSK/3-23.jpg",
+        "https://i.ibb.co/CKVY1XfY/3-26.jpg"
+      ],
+      4: [
+        "https://i.ibb.co/ycn8ns0z/4-1.jpg",
+        "https://i.ibb.co/fdhQrX76/4-2.jpg",
+        "https://i.ibb.co/ZRLVQYhk/4-3.jpg",
+        "https://i.ibb.co/MDg6m14h/4-4.jpg",
+        "https://i.ibb.co/GvRsCpJ9/4-5.jpg",
+        "https://i.ibb.co/yn22pHzW/4-6.jpg",
+        "https://i.ibb.co/yB0PW0vP/4-7.jpg",
+        "https://i.ibb.co/Zz1bL7Bg/4-8.jpg",
+        "https://i.ibb.co/R4QQVDN8/4-9.jpg",
+        "https://i.ibb.co/yBY15bPW/4-10.jpg"
+      ],
+      5: [
+        "https://i.ibb.co/m5yDDBK2/5-1.jpg",
+        "https://i.ibb.co/nMktPV6y/5-2.jpg",
+        "https://i.ibb.co/yF7qK2Lv/5-3.jpg",
+        "https://i.ibb.co/ymym75R6/5-4.jpg",
+        "https://i.ibb.co/7NtCGKXn/5-5.jpg",
+        "https://i.ibb.co/93V9yfXY/5-6.jpg",
+        "https://i.ibb.co/9H7QkjZg/5-7.jpg",
+        "https://i.ibb.co/S7w43zMC/5-8.jpg",
+        "https://i.ibb.co/pvnjGhgb/5-9.jpg",
+        "https://i.ibb.co/0R4RDRsR/5-10.jpg",
+        "https://i.ibb.co/Fb5GPY7Y/5-11.jpg",
+        "https://i.ibb.co/gFJNfpQ3/5-12.jpg",
+        "https://i.ibb.co/4n4LSf34/5-13.jpg",
+        "https://i.ibb.co/RkS0bTgb/5-14.jpg",
+        "https://i.ibb.co/dsZnBG2X/5-15.jpg"
+      ],
+      6: [
+        "https://i.ibb.co/8LXMT262/6-1.jpg",
+        "https://i.ibb.co/cG8CkMd/6-2.jpg",
+        "https://i.ibb.co/GvNY4FH0/6-3.jpg",
+        "https://i.ibb.co/YB8jZmyt/6-4.jpg",
+        "https://i.ibb.co/Jwb673wq/6-5.jpg",
+        "https://i.ibb.co/rfGp5sBW/6-6.jpg",
+        "https://i.ibb.co/nsNQGLTV/6-8.jpg"
+      ],
+      7: [
+        "https://i.ibb.co/KzVkD4vv/7-1.jpg",
+        "https://i.ibb.co/7JjkM2M2/7-2.jpg",
+        "https://i.ibb.co/rGbTgkv3/7-3.jpg",
+        "https://i.ibb.co/Y7jC1b3F/7-4.jpg",
+        "https://i.ibb.co/TDYxbT3K/7-5.jpg",
+        "https://i.ibb.co/7JWvzz5c/7-6.jpg",
+        "https://i.ibb.co/7dph0zNw/7-7.jpg",
+        "https://i.ibb.co/0xqh6gF/7-8.jpg"
+      ],
+      8: [
+        "https://i.ibb.co/SGtBkCt/8-1.jpg",
+        "https://i.ibb.co/PsQFqn8k/8-2.jpg",
+        "https://i.ibb.co/dsQfFvnv/8-3.jpg",
+        "https://i.ibb.co/BHH8qjy6/8-4.jpg",
+        "https://i.ibb.co/XxD7xqSG/8-5.jpg",
+        "https://i.ibb.co/NdLxL7g0/8-6.jpg",
+        "https://i.ibb.co/d43vr3zq/8-7.jpg",
+        "https://i.ibb.co/8nq28m7W/8-8.jpg",
+        "https://i.ibb.co/dSmLh99/8-9.jpg",
+        "https://i.ibb.co/kbhFVTX/8-10.jpg"
+      ],
+      9: [
+        "https://i.ibb.co/TDKq6QX4/9-1.jpg",
+        "https://i.ibb.co/4nkgnSdF/9-2.jpg",
+        "https://i.ibb.co/VYjhwgmQ/9-3.jpg",
+        "https://i.ibb.co/PzN2XJcZ/9-4.jpg",
+        "https://i.ibb.co/RGGQ3MSy/9-5.jpg",
+        "https://i.ibb.co/PsdQfpdC/9-6.jpg",
+        "https://i.ibb.co/hRYJFNsq/9-10.jpg",
+        "https://i.ibb.co/HTLjpd3N/9-11.jpg",
+        "https://i.ibb.co/99k0Z53k/9-12.jpg",
+        "https://i.ibb.co/1Yttmmp5/9-13.jpg"
+      ]
+    };
+
+    // ✅ KUTULARI BAS (arka plan ilk foto)
+    const kutuAlan = document.getElementById("kutuAlan");
+    kutuIsimleri.forEach((isim, index) => {
+      const no = index + 1;
+      const btn = document.createElement("button");
+      btn.className = "kutu";
+      btn.innerHTML = `<span class="kutuYazi">${isim}</span>`;
+      btn.onclick = () => kutuAc(no);
+
+      const ilk = fotoGruplari[no]?.[0] || "";
+      btn.style.setProperty("--bg", ilk ? `url('${ilk}')` : "none");
+
+      kutuAlan.appendChild(btn);
+    });
+
+    // ✅ LIGHTBOX
+    const lightbox = document.getElementById("lightbox");
+    const buyukFoto = document.getElementById("buyukFoto");
+    const thumbGrid = document.getElementById("thumbGrid");
+    const lbYazi = document.getElementById("lbYazi");
+
+    function kutuAc(no) {
+      lightbox.style.display = "flex";
+      buyukFoto.src = "";
+      thumbGrid.innerHTML = "";
+      lbYazi.textContent = "Bir foto seç 👇";
+
+      const liste = fotoGruplari[no] || [];
+      if (liste.length === 0) {
+        lbYazi.textContent = "Bu kutuda foto yok 😶";
+        return;
+      }
+
+      liste.forEach((src) => {
+        const t = document.createElement("img");
+        t.className = "thumb";
+        t.loading = "lazy";
+        t.src = src;
+
+        t.onclick = () => {
+          buyukFoto.src = src;
+          lbYazi.textContent = "";
+        };
+        thumbGrid.appendChild(t);
+      });
+    }
+
+    function kapat() {
+      lightbox.style.display = "none";
+      buyukFoto.src = "";
+      thumbGrid.innerHTML = "";
+    }
+
+    function arkaKapat(e) {
+      if (e.target.id === "lightbox") kapat();
+    }
+
+    // ✅ MÜZİK AÇ/KAPAT
+    const muzik = document.getElementById("arkaMuzik");
+    const muzikBtn = document.getElementById("muzikBtn");
+    let muzikAcik = false;
+
+    function ikonGuncelle() {
+      muzikBtn.textContent = muzikAcik ? "🔊" : "🔇";
+    }
+    ikonGuncelle();
+
+    muzikBtn.addEventListener("click", async (e) => {
+      e.stopPropagation();
+
+      try {
+        if (!muzikAcik) {
+          await muzik.play();
+          muzikAcik = true;
+          ikonGuncelle();
+        } else {
+          muzik.pause();
+          muzikAcik = false;
+          ikonGuncelle();
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    });
+
+
+
+    // ✅ SORU KUTUSU
+    const evetBtn = document.getElementById("evetBtn");
+    const hayirBtn = document.getElementById("hayirBtn");
+    const cevapYazi = document.getElementById("cevapYazi");
+
+    const evetMesaji = "Ben de seni çoook seviyorum bebeğim 💞 Sonsuza kadar!";
+
+    evetBtn.addEventListener("click", () => {
+      cevapYazi.textContent = evetMesaji;
+      for (let i = 0; i < 15; i++) setTimeout(kalpCikar, i * 120);
+    });
+
+    function hayirKac() {
+      const alan = hayirBtn.parentElement;
+      const maxX = alan.clientWidth - hayirBtn.offsetWidth;
+      const maxY = alan.clientHeight - hayirBtn.offsetHeight;
+      const x = Math.floor(Math.random() * (maxX + 1));
+      const y = Math.floor(Math.random() * (maxY + 1));
+      hayirBtn.style.left = x + "px";
+      hayirBtn.style.top = y + "px";
+      hayirBtn.style.transform = "none";
+    }
+
+    hayirBtn.addEventListener("mouseenter", hayirKac);
+    hayirBtn.addEventListener("mouseover", hayirKac);
+    hayirBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      hayirKac();
+    });
+
+    function kalpCikar() {
+      const kalp = document.createElement("div");
+      kalp.className = "kalp";
+      kalp.textContent = "💖";
+      kalp.style.left = Math.random() * 100 + "vw";
+      kalp.style.animationDuration = (2 + Math.random()) + "s";
+      document.body.appendChild(kalp);
+      setTimeout(() => kalp.remove(), 3000);
+    }
+  </script>
+
+</body>
+
+</html>
